@@ -4,6 +4,7 @@ helpers do
       User.find(session[:user_id]).email
     end
   end
+
 end
 
 # Homepage (Root path)
@@ -31,6 +32,9 @@ post '/music' do
       author: params[:author],
       url: params[:url]
     )
+    if current_user
+      @songs.user_id = session[:user_id]
+    end
   @songs.save
   redirect '/music'
 end

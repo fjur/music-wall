@@ -1,9 +1,17 @@
 <% @songs.each do |song| %>
   <div class="message">
     <h3><a href="/music/<%= song.id %>"><%= song.song_title %></a><small>(by: <%= song.author %>)</small></h3>
-    <p>
-      <%= song.url %>
-    </p>
+   
+    <% if song.url %>
+      <p>
+        Url :<%= song.url %>
+      </p>
+    <% end %>
+    <% if song.user_id %> 
+      <p>
+        Posted By: <%= song.user.email %>
+      </p>
+    <% end %>
   </div>
 <% end %>
 

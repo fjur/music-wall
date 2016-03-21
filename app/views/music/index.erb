@@ -1,7 +1,7 @@
 <% @songs.each do |song| %>
   <div class="message">
-    <h3><a href="/music/<%= song.id %>"><%= song.song_title %></a><small>(by: <%= song.author %>)</small></h3>
-   
+    <h3><a href="/music/<%= song.id %>"><%= song.song_title %></a><small> (by: <%= song.author %>)</small></h3>
+    <h4>Total Votes: <%= song.votes.count %></h4>
     <% if song.url %>
       <p>
         Url :<%= song.url %>
@@ -12,7 +12,13 @@
         Posted By: <%= song.user.email %>
       </p>
     <% end %>
+
+    <% if current_user && !song.user_id.nil? && song.votes.find_by(user_id: song.user.id, song_id: song.id).nil? %>
+      <form action ="/upvote/<%= song.id %>" method = "POST">
+        <input type="submit" name="upvote" value="Up Vote" />
+      </form>
+    <% end %>
+
   </div>
 <% end %>
-
 <a href="/music/new">Post a new song</a>

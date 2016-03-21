@@ -39,6 +39,15 @@ post '/music' do
   redirect '/music'
 end
 
+post '/upvote/:id' do
+  @song = Song.find params[:id]
+  vote = @song.user.votes.create(value: 1)
+  vote.update(song_id: @song.id)
+  # vote.song_id = @song.id
+  # vote.save
+  redirect '/music'
+end
+
 post '/signup' do
   user = User.create(email: params[:email], password: params[:password])
   session[:user_id] = user.id

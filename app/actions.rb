@@ -1,7 +1,7 @@
 helpers do
   def current_user
     if session[:user_id]
-      User.find(session[:user_id]).email
+      User.find(session[:user_id])
     end
   end
 
@@ -41,8 +41,8 @@ end
 
 post '/upvote/:id' do
   @song = Song.find params[:id]
-  vote = @song.user.votes.create(value: 1)
-  vote.update(song_id: @song.id)
+  vote = @song.votes.create(value: 1) #this is saving the songs user who created it, not the user who upvoted
+  vote.update(song_id: @song.id, user_id: current_user.id)
   # vote.song_id = @song.id
   # vote.save
   redirect '/music'
@@ -65,6 +65,10 @@ post '/login' do
     session[:user_id] = user.id
     redirect '/music'
   else
+
+    #  <% if song.song_title == 'fusion' %>
+    #   <% binding.pry %>
+    # <% end %>
 
   end
 end

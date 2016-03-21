@@ -13,7 +13,9 @@
       </p>
     <% end %>
 
-    <% if current_user && !song.user_id.nil? && song.votes.find_by(user_id: song.user.id, song_id: song.id).nil? %>
+   
+
+    <% if current_user && !song.user_id.nil? && song.votes.find_by(user_id: current_user.id, song_id: song.id).nil? %>
       <form action ="/upvote/<%= song.id %>" method = "POST">
         <input type="submit" name="upvote" value="Up Vote" />
       </form>

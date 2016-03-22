@@ -20,7 +20,6 @@
               <input class="btn btn-lg btn-primary" type="submit" name="upvote" value="Up Vote" />
             </form>
           <% end %>
-
 <!--           ADD review Code Here -->
           <div id="review">
             <% if current_user %>
@@ -31,8 +30,9 @@
                   <input type="text" name="title">
                 </div>
                 <div>
-                  <label>Review Rating</label>
-                  <input type="text" name="rating">
+                  <div id="rateYo"></div>
+
+                  <input id="review-rating" type="hidden" name="rating">
                 </div>
                 <div>
                   <label>Content</label>

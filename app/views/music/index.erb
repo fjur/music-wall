@@ -16,31 +16,67 @@
           </p>
           <% end %>
            <% if current_user && !song.user_id.nil? && song.votes.find_by(user_id: current_user.id, song_id: song.id).nil? %>
-      <form action ="/upvote/<%= song.id %>" method = "POST">
-        <input class="btn btn-lg btn-primary" type="submit" name="upvote" value="Up Vote" />
-      </form>
-    <% end %>
+            <form action ="/upvote/<%= song.id %>" method = "POST">
+              <input class="btn btn-lg btn-primary" type="submit" name="upvote" value="Up Vote" />
+            </form>
+          <% end %>
+
+<!--           ADD review Code Here -->
+          <div id="review">
+            <% if current_user %>
+            <h4>Add a review</h4>
+              <form action="/review/<%= song.id %>" method="POST">
+                <div>
+                  <label>Review Title</label>
+                  <input type="text" name="title">
+                </div>
+                <div>
+                  <label>Review Rating</label>
+                  <input type="text" name="rating">
+                </div>
+                <div>
+                  <label>Content</label>
+                  <input type="text" name="content">
+                </div>
+                <div>
+                  <input type="submit" value="Submit">
+                </div>
+              </form>
+            <% end %>
+          </div>
+
+          <% if song.reviews %>
+          <!-- Show Review Code Here -->
+            <% song.reviews.each do |review| %>
+              <p>
+                Review Title: <%= review.title %>
+              </p>
+              <p>
+                Reviewer: <%= get_song_reviewer(review) %>
+              </p>
+              <p>
+                Rating: <%= review.rating %>
+              </p>
+              <p>
+                Review: <%= review.content %>
+              </p>
+
+              <% if get_song_reviewer(review) == current_user.email %>
+                <form action="/review_delete/<%= review.id %>" method="POST">
+                <div>
+                  <input type="submit" value="delete" name="delete">
+                </div>
+              <% end %>
+
+
+
+            <% end %>
+          <% end %>
+
+
 
       </div>
     </div>
-<!-- 
-    <h3><a href="/music?id=<%= song.id %>"><%= song.song_title %></a><small> (by: <%= song.author %>)</small></h3>
-    <h4>Total Votes: <%= song.votes.count %></h4>
-    <% if song.url %>
-      <p>
-        Url :<%= song.url %>
-      </p>
-    <% end %>
-    <% if song.user_id %> 
-      <p>
-        Posted By: <%= song.user.email %>
-      </p>
-    <% end %>
-    <% if current_user && !song.user_id.nil? && song.votes.find_by(user_id: current_user.id, song_id: song.id).nil? %>
-      <form action ="/upvote/<%= song.id %>" method = "POST">
-        <input type="submit" name="upvote" value="Up Vote" />
-      </form>
-    <% end %> -->
 
   </div>
 

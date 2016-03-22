@@ -5,6 +5,10 @@ helpers do
     end
   end
 
+  def get_song_reviewer(review)
+    User.find_by_id(review.user_id).email
+  end
+
 end
 
 # Homepage (Root path)
@@ -69,11 +73,34 @@ post '/login' do
   if user && user.password = params[:password]
     session[:user_id] = user.id
     redirect '/songs'
-  else
-
-    #  <% if song.song_title == 'fusion' %>
-    #   <% binding.pry %>
-    # <% end %>
-
   end
 end
+
+ # t.integer "user_id"
+ #    t.integer "song_id"
+ #    t.string  "title"
+ #    t.string  "content"
+ #    t.integer "rating"
+
+post '/review/:id' do
+  @song = Song.find params[:id]
+  review = @song.reviews.create( title: params[:title],
+                               content: params[:content],
+                                rating: params[:rating],
+                                user_id: current_user.id
+                              )
+  redirect '/songs'
+  
+end
+
+post '/review_delete/:id' do
+  @review = Review.find params[:id]
+  @review.destroy
+  redirect '/songs'
+end
+
+
+
+
+
+

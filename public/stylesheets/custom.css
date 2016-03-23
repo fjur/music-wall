@@ -1,0 +1,17 @@
+.thumbnail {
+  display: inline-block;
+  float:right;
+}
+
+.col-md-4 {
+  width:32%;
+}
+
+.outer-image-div{
+  padding-right: 10px;
+}
+
+/*.row {
+  display: inline-block;
+  background: #ccc;
+}*/

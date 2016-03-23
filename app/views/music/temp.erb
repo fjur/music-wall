@@ -1,0 +1,72 @@
+ <div class="row">
+          <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+              <img src="<%= get_photos_from_amazon(song.author, song.album) %>" alt=<%= song.song_title %>>
+              <div class="caption">
+                <h3><%= song.song_title %></h3>
+                <h4><%= song.author %></h4>
+                <h4>Total Votes: <%= song.votes.count %></h4>
+                 <% if song.url %>
+                   <p>
+                    Url : <a href="<%= song.url %>">Click Me</a>
+                    </p>
+                  <% end %>
+                  <% if current_user && song.votes.find_by(user_id: current_user.id, song_id: song.id).nil? %>
+                    <form action ="/upvote/<%= song.id %>" method = "POST">
+                      <input class="btn btn-lg btn-primary" type="submit" name="upvote" value="Up Vote" />
+                    </form>
+                  <% end %>
+
+                  <div id="review">
+                    <% if current_user %>
+                      <form action="/review/<%= song.id %>" method="POST">
+                       <div>
+                          <div class="rateYo"></div>
+                          <input class="review-rating" type="hidden" name="rating">
+                        </div>
+                        <div>
+                          <label>Review Title</label>
+                          <input type="text" name="title">
+                        </div>
+                        <div>
+                          <label>Content</label>
+                          <input type="text" name="content">
+                        </div>
+                        <div>
+                          <input type="submit" value="Submit">
+                        </div>
+                      </form>
+                    <% end %>
+                  </div>
+
+                  <% if song.reviews %>
+                  <!-- Show Review Code Here -->
+                    <% song.reviews.each do |review| %>
+                      <p>
+                        Review Title: <%= review.title %>
+                      </p>
+                      <p>
+                        Reviewer: <%= get_song_reviewer(review) %>
+                      </p>
+                      <p>
+                        Rating: <%= review.rating %>
+                      </p>
+                      <p>
+                        Review: <%= review.content %>
+                      </p>
+
+                      <% if current_user && get_song_reviewer(review) == current_user.email %>
+                        <form action="/review_delete/<%= review.id %>" method="POST">
+                        <div>
+                          <input type="submit" value="delete" name="delete">
+                        </div>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+
+                <p>...</p>
+                <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
